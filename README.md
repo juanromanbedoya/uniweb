@@ -2,7 +2,7 @@
 
 Actividad final de **Programación Integrada Web**.
 
-- **Aplicación en vivo (túnel):** ver el enlace en la página del proyecto: https://juan2052H.github.io/uniweb/
+- **Aplicación en vivo (túnel):** ver el enlace en la página del proyecto: https://juanromanbedoya.github.io/uniweb/
 - **Rastro de lo hecho por la IA:** [BITACORA_IA.md](BITACORA_IA.md)
 
 ## Qué incluye
