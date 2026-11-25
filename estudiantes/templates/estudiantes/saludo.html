@@ -1,0 +1,11 @@
+{% extends "estudiantes/base.html" %}
+
+{% block title %}Saludo{% endblock %}
+
+{% block contenido %}
+  <section class="tarjeta angosta">
+    <h1>{{ mensaje }}</h1>
+    <p>Esta respuesta del endpoint <code>/saludo/</code> viaja a través de la vista HTML (template), no directamente desde el servidor.</p>
+    <p><a href="{% url 'home' %}">← Volver al home</a></p>
+  </section>
+{% endblock %}

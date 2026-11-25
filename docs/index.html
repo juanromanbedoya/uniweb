@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Uniweb · CRUD de estudiantes</title>
+  <style>
+    :root { --azul: #1e3a8a; --borde: #e5e7eb; --gris: #6b7280; }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f3f4f6; color: #1f2937; margin: 0; }
+    header { background: var(--azul); color: #fff; padding: 2.5rem 1rem; text-align: center; }
+    header h1 { margin: 0 0 .4rem; font-size: 2rem; }
+    header p { margin: 0; color: #dbeafe; }
+    main { max-width: 760px; margin: -1.5rem auto 3rem; padding: 0 1rem; }
+    .tarjeta { background: #fff; border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,.08); padding: 1.8rem; margin-bottom: 1.2rem; }
+    h2 { margin-top: 0; color: var(--azul); font-size: 1.25rem; }
+    .boton { display: inline-block; background: var(--azul); color: #fff; text-decoration: none; padding: .8rem 1.3rem; border-radius: 8px; font-weight: 600; font-size: 1.05rem; }
+    .boton:hover { background: #172e6e; }
+    .boton.sec { background: #fff; color: var(--azul); border: 1px solid var(--azul); font-weight: 500; font-size: .95rem; padding: .5rem .9rem; }
+    .acciones { display: flex; gap: .6rem; flex-wrap: wrap; margin-top: 1rem; }
+    code { background: #f3f4f6; padding: .1rem .35rem; border-radius: 4px; word-break: break-all; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: .55rem .4rem; border-bottom: 1px solid var(--borde); }
+    th { font-size: .8rem; text-transform: uppercase; color: var(--gris); letter-spacing: .03em; }
+    .muted { color: var(--gris); font-size: .92rem; }
+    #estado { font-size: .9rem; margin-top: .8rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Uniweb</h1>
+    <p>CRUD de estudiantes · Django + SQLite · Programación Integrada Web</p>
+  </header>
+
+  <main>
+    <section class="tarjeta">
+      <h2>Ingresar a la aplicación</h2>
+      <p>La aplicación corre en Django con SQLite y se publica en internet mediante un túnel:</p>
+      <p><code id="url-texto"></code></p>
+      <div class="acciones">
+        <a id="btn-app" class="boton" href="#">Abrir la aplicación</a>
+      </div>
+      <div class="acciones">
+        <a id="lnk-lista" class="boton sec" href="#">Lista de estudiantes</a>
+        <a id="lnk-registro" class="boton sec" href="#">Registrar estudiante</a>
+      </div>
+      <p id="estado" class="muted"></p>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Qué se hizo</h2>
+      <ol>
+        <li><strong>Migración a SQLite:</strong> modelo <code>Estudiante</code> (ORM) y capa de servicio View → Service → Model → BD.</li>
+        <li><strong>CRUD de personas:</strong> crear, listar con búsqueda, editar y eliminar con confirmación.</li>
+        <li><strong>Túnel:</strong> URL pública hacia el servidor local.</li>
+      </ol>
+      <table>
+        <thead><tr><th>Operación</th><th>Ruta</th></tr></thead>
+        <tbody>
+          <tr><td>Crear</td><td><code>/estudiantes/registro/</code></td></tr>
+          <tr><td>Listar</td><td><code>/estudiantes/</code></td></tr>
+          <tr><td>Editar</td><td><code>/estudiantes/editar/&lt;id&gt;/</code></td></tr>
+          <tr><td>Eliminar</td><td><code>/estudiantes/eliminar/&lt;id&gt;/</code></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section class="tarjeta">
+      <h2>Código y bitácora</h2>
+      <div class="acciones">
+        <a class="boton sec" href="https://github.com/juan2052H/uniweb">Repositorio en GitHub</a>
+        <a class="boton sec" href="https://github.com/juan2052H/uniweb/blob/main/BITACORA_IA.md">Bitácora de la IA (.md)</a>
+      </div>
+      <p class="muted">GitHub Pages solo sirve archivos estáticos, por eso esta página enlaza a la aplicación Django que corre por el túnel.</p>
+    </section>
+  </main>
+
+  <script>
+    // URL actual del túnel. Si el túnel cambia, solo se actualiza esta línea.
+    const URL_APP = "https://c9ba935184ee22.app.lhr.life";
+
+    document.getElementById("url-texto").textContent = URL_APP;
+    document.getElementById("btn-app").href = URL_APP + "/";
+    document.getElementById("lnk-lista").href = URL_APP + "/estudiantes/";
+    document.getElementById("lnk-registro").href = URL_APP + "/estudiantes/registro/";
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+{% extends "estudiantes/base.html" %}
+
+{# Formulario compartido por CREATE (registro) y UPDATE (editar). #}
+
+{% block contenido %}
+  <section class="tarjeta angosta">
+    <h1>{{ titulo }}</h1>
+
+    {% if estudiante %}
+      <p class="muted">Editando el registro #{{ estudiante.id }}.</p>
+    {% endif %}
+
+    {# novalidate: los mensajes de error los muestra nuestro JavaScript (script al final de la página) #}
+    <form id="form-registro" method="post" novalidate>
+      {% csrf_token %}
+
+      <div class="campo">
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="{{ valores.nombre }}" maxlength="100"
+               autocomplete="name" aria-describedby="error-nombre" required
+               class="{% if errores.nombre %}invalido{% endif %}">
+        <small class="error" id="error-nombre" role="alert">{{ errores.nombre }}</small>
+      </div>
+
+      <div class="campo">
+        <label for="edad">Edad</label>
+        <input type="text" id="edad" name="edad" value="{{ valores.edad }}"
+               inputmode="numeric" autocomplete="off" aria-describedby="error-edad" required
+               class="{% if errores.edad %}invalido{% endif %}">
+        <small class="error" id="error-edad" role="alert">{{ errores.edad }}</small>
+      </div>
+
+      <div class="acciones">
+        <button class="boton" type="submit">{{ boton }}</button>
+        <a class="boton secundario" href="{% url 'lista_estudiantes' %}">Cancelar</a>
+      </div>
+    </form>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    const formulario = document.getElementById("form-registro");
+    const campoNombre = document.getElementById("nombre");
+    const campoEdad = document.getElementById("edad");
+    const errorNombre = document.getElementById("error-nombre");
+    const errorEdad = document.getElementById("error-edad");
+
+    // Cada validación devuelve "" si el dato es válido, o el mensaje de error.
+    function validarNombre(texto) {
+      const valor = texto.trim();
+      if (valor === "") {
+        return "El nombre no puede estar vacío.";
+      }
+      if (valor.length > 100) {
+        return "El nombre no puede tener más de 100 caracteres.";
+      }
+      return "";
+    }
+
+    function validarEdad(texto) {
+      const valor = texto.trim();
+      if (valor === "") {
+        return "La edad es obligatoria.";
+      }
+      if (!/^-?[0-9]+(\.[0-9]+)?$/.test(valor)) {
+        return "La edad debe ser un número.";
+      }
+      const edad = Number(valor);
+      if (edad <= 0) {
+        return "La edad debe ser mayor que 0.";
+      }
+      if (!Number.isInteger(edad)) {
+        return "La edad debe ser un número entero.";
+      }
+      if (edad > 120) {
+        return "La edad no puede ser mayor que 120.";
+      }
+      return "";
+    }
+
+    function mostrarError(campo, contenedor, mensaje) {
+      contenedor.textContent = mensaje;
+      campo.classList.toggle("invalido", mensaje !== "");
+    }
+
+    // Se valida ANTES de enviar: si hay errores se cancela el envío con preventDefault().
+    formulario.addEventListener("submit", (evento) => {
+      const mensajeNombre = validarNombre(campoNombre.value);
+      const mensajeEdad = validarEdad(campoEdad.value);
+
+      mostrarError(campoNombre, errorNombre, mensajeNombre);
+      mostrarError(campoEdad, errorEdad, mensajeEdad);
+
+      if (mensajeNombre !== "" || mensajeEdad !== "") {
+        evento.preventDefault();
+        (mensajeNombre !== "" ? campoNombre : campoEdad).focus();
+      }
+      // Sin errores: el formulario se envía por POST y el servidor guarda en SQLite.
+    });
+
+    // Al corregir un campo se borra su mensaje de error.
+    campoNombre.addEventListener("input", () => mostrarError(campoNombre, errorNombre, ""));
+    campoEdad.addEventListener("input", () => mostrarError(campoEdad, errorEdad, ""));
+  </script>
+{% endblock %}

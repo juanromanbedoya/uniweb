@@ -1,0 +1,33 @@
+{% extends "estudiantes/base.html" %}
+
+{% block contenido %}
+  <section class="tarjeta angosta">
+    <h1>{{ titulo }}</h1>
+    <p>Renderizado desde Django Template.</p>
+
+    <button id="btn" class="boton secundario" type="button">Click JS</button>
+    <p id="out"></p>
+
+    <hr>
+
+    <p>Estudiantes registrados en SQLite: <strong>{{ total }}</strong></p>
+    <div class="acciones">
+      <button id="btn-registro" class="boton" type="button" data-url="{% url 'registro' %}">Ir al registro</button>
+      <a class="boton secundario" href="{% url 'lista_estudiantes' %}">Ver lista</a>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script>
+    // Interacción vista en clase
+    document.getElementById("btn").addEventListener("click", () => {
+      document.getElementById("out").innerText = "Interacción desde JavaScript";
+    });
+
+    // Navegación: el botón lleva a la vista de registro (la URL la genera Django)
+    document.getElementById("btn-registro").addEventListener("click", (evento) => {
+      window.location.href = evento.currentTarget.dataset.url;
+    });
+  </script>
+{% endblock %}
