@@ -86,6 +86,14 @@ Decisiones que tomó la IA:
   - `CSRF_TRUSTED_ORIGINS`: los mismos dominios con `https://`. Sin esto, los formularios POST enviados desde la URL pública responden 403.
 - `iniciar_tunel.bat` usa `cloudflared` si está instalado y, si no, usa localhost.run.
 
+## 4.1 Publicación en GitHub y GitHub Pages
+
+- Se creó el repositorio **público** https://github.com/juanromanbedoya/uniweb con `gh repo create --public`. Se excluyeron `venv/`, `__pycache__/` y `db.sqlite3` mediante `.gitignore`.
+- **GitHub Pages solo sirve archivos estáticos** (HTML, CSS, JS) y no puede ejecutar Django ni SQLite. Por eso la carpeta `docs/` contiene una portada estática (`docs/index.html`), publicada en https://juanromanbedoya.github.io/uniweb/, que:
+  - enlaza a la aplicación real, que corre por el túnel;
+  - resume el CRUD y enlaza al repositorio y a esta bitácora.
+- Ventaja: la URL de Pages **no cambia**. Si la URL del túnel cambia, solo se actualiza la constante `URL_APP` de `docs/index.html` y se hace push.
+
 ## 5. Verificación
 
 - `python manage.py check`: sin problemas.
@@ -110,6 +118,8 @@ Rutas locales: `http://127.0.0.1:8000/` · `/estudiantes/` · `/estudiantes/regi
 ```
 uniweb/
 ├── BITACORA_IA.md            ← este archivo
+├── README.md
+├── docs/index.html           ← portada de GitHub Pages
 ├── iniciar_servidor.bat
 ├── iniciar_tunel.bat
 ├── manage.py
